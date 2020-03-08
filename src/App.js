@@ -1,9 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { IdentityContextProvider } from 'react-netlify-identity-widget'
 import 'react-netlify-identity-widget/styles.css'
 import AuthStatusView from './AuthStatusView';
+import Todos from './Todos';
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
+
+const client = new ApolloClient({
+  uri: "https://hasura-app-with-netlify.herokuapp.com/v1/graphql",
+
+  request: (operation) => {
+    const credentials = localStorage.getItem('gotrue.user')
+    const user = credentials && JSON.parse(credentials);
+    const token = user?.token?.access_token;
+    console.log("token", token)
+    
+    operation.setContext({
+      headers: {
+        Authorization: token ? `Bearer ${token}` : ''
+      }
+    })
+  }
+});
 
 function App() {
   const url = process.env.REACT_APP_NETLIFY_IDENTITY_URL // should look something like "https://foo.netlify.com"
@@ -14,9 +33,12 @@ function App() {
 
   return (
     <IdentityContextProvider url={url}>
-      <div className="App">
-        <AuthStatusView />
-      </div>
+      <ApolloProvider client={client}>
+        <div className="App">
+          <Todos />
+          <AuthStatusView />
+        </div>
+      </ApolloProvider>
     </IdentityContextProvider>
   );
 }
