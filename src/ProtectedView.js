@@ -2,6 +2,7 @@ import React from 'react'
 import { IdentityModal, useIdentityContext } from 'react-netlify-identity-widget'
 import { Layout, Button } from 'antd';
 import styled from 'styled-components';
+import { StyledContent } from 'CommonStyles';
 
 const { Header } = Layout;
 const Greeting = styled.span`
@@ -47,12 +48,12 @@ export default function ProtectedView(props) {
   )
 
   return (
-    <div>
+    <StyledContent>
       <h1> hello! try logging in! </h1>
       <Button type="primary" onClick={() => setDialog(true)}>
         LOG IN
       </Button>
       {renderIdentityModal()}
-    </div>
+    </StyledContent>
   );
 }

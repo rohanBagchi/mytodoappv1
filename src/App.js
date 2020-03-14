@@ -6,7 +6,6 @@ import Todos from './Todos';
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import { Layout } from 'antd';
-import styled from 'styled-components';
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,8 +13,7 @@ import {
   Link
 } from "react-router-dom";
 import ProtectedView from './ProtectedView';
-
-const { Header, Content } = Layout;
+import { StyledContent } from 'CommonStyles';
 
 const client = new ApolloClient({
   uri: "https://hasura-app-with-netlify.herokuapp.com/v1/graphql",
@@ -34,10 +32,6 @@ const client = new ApolloClient({
   }
 });
 
-const StyledContent = styled(Content)`
-  padding: 0 50px;
-`;
-
 function App() {
   const url = process.env.REACT_APP_NETLIFY_IDENTITY_URL // should look something like "https://foo.netlify.com"
   if (!url)
@@ -50,11 +44,11 @@ function App() {
       <ApolloProvider client={client}>
         <Router>
           <Layout style={{ height: "100vh" }}>
-            <StyledContent>
-              <ProtectedView>
+            <ProtectedView>
+              <StyledContent>
                 <Todos />
-              </ProtectedView>
-            </StyledContent>
+              </StyledContent>
+            </ProtectedView>
           </Layout>
         </Router>
       </ApolloProvider>
