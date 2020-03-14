@@ -14,10 +14,11 @@ import {
 } from "react-router-dom";
 import ProtectedView from './ProtectedView';
 import { StyledContent } from 'CommonStyles';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
 const client = new ApolloClient({
   uri: "https://hasura-app-with-netlify.herokuapp.com/v1/graphql",
-
+  cache: new InMemoryCache(),
   request: (operation) => {
     const credentials = localStorage.getItem('gotrue.user')
     const user = credentials && JSON.parse(credentials);
