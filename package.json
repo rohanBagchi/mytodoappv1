@@ -10,7 +10,9 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "antd": "^4.0.2",
     "apollo-boost": "^0.4.7",
+    "apollo-cache-inmemory": "^1.6.5",
     "apollo-link-context": "^1.0.19",
     "apollo-link-http": "^1.5.16",
     "graphql": "^14.6.0",
@@ -21,6 +23,7 @@
     "react-dom": "^16.13.0",
     "react-netlify-identity": "^0.2.3",
     "react-netlify-identity-widget": "^0.2.7",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "styled-components": "^5.0.1"
   },
