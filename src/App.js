@@ -30,7 +30,7 @@ const client = new ApolloClient({
         Authorization: token ? `Bearer ${token}` : ''
       }
     })
-  }
+  },
 });
 
 function App() {

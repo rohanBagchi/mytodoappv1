@@ -8,7 +8,8 @@ import {
   List,
   Button,
   Input,
-  Form
+  Form,
+  Alert
 } from 'antd';
 
 const GET_TODOS = gql`
@@ -46,7 +47,10 @@ mutation insertTodo($title: String, $complete: Boolean) {
 `;
 
 export default function Todos() {
-  const [addTodo, { data }] = useMutation(
+  const [addTodo, {
+    loading: mutationLoading,
+    error: mutationError,
+  }] = useMutation(
     ADD_TODO,
     {
       update(cache, { data }) {
@@ -60,19 +64,26 @@ export default function Todos() {
           query: GET_TODOS,
           data: { todos: todos.concat(returning) },
         });
+      },
+      onCompleted() {
+        form.resetFields();
       }
     }
   );
 
   const [form] = Form.useForm();
 
-  const onFinish = ({ todo }) => {
-    addTodo({
-      variables: {
-        "title": todo,
-        "complete": false
-      }
-    });
+  const onFinish = async ({ todo }) => {
+    try {
+      await addTodo({
+        variables: {
+          "title": todo,
+          "complete": false
+        }
+      });
+    } catch (e) {
+      console.error(`Unable to run mutation: addTodo`, e)
+    }
   }
 
   return (
@@ -88,7 +99,9 @@ export default function Todos() {
         >
           <Form.Item
             name="todo"
+            disabled={mutationLoading}
             rules={[{ required: true, message: 'Please input your todo!' }]}
+            validateStatus={mutationError ? 'error' : null}
           >
             <Input
               placeholder="What to do?"
@@ -100,17 +113,22 @@ export default function Todos() {
               <Button
                 type="primary"
                 htmlType="submit"
+                loading={mutationLoading}
                 disabled={
                   !form.getFieldValue('todo') ||
                   !form.isFieldsTouched(true) ||
                   form.getFieldsError().filter(({ errors }) => errors.length).length
                 }
               >
-                Log in
+                Add Todo!
               </Button>
             )}
           </Form.Item>
         </Form>
+
+        {mutationError && (
+          <Alert message="Unable to save todo. Please try again" type="error" />
+        )}
       </fieldset>
       <Query query={GET_TODOS}>
         {({ loading, error, data }) => {
