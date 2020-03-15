@@ -3,6 +3,8 @@ import { IdentityModal, useIdentityContext } from 'react-netlify-identity-widget
 import { Layout, Button } from 'antd';
 import styled from 'styled-components';
 import { StyledContent } from 'CommonStyles';
+import { ApolloProvider } from "react-apollo";
+import { Init } from './InitApollo';
 
 const { Header } = Layout;
 const Greeting = styled.span`
@@ -18,9 +20,11 @@ const StyledHeader = styled(Header)`
 
 export default function ProtectedView(props) {
   const identity = useIdentityContext()
+  const client = Init(identity);
+
   const [dialog, setDialog] = React.useState(false)
   const name = identity?.user?.user_metadata?.full_name || 'NoName';
-  
+
   const isLoggedIn = identity?.isLoggedIn;
 
   const renderIdentityModal = () => (
@@ -32,7 +36,7 @@ export default function ProtectedView(props) {
       onLogout={() => console.log('bye ', name)}
     />
   );
-  
+
   if (isLoggedIn) return (
     <React.Fragment>
       <StyledHeader>
@@ -42,7 +46,9 @@ export default function ProtectedView(props) {
           LOG OUT
         </Button>
       </StyledHeader>
-      {props.children}
+      <ApolloProvider client={client}>
+        {props.children}
+      </ApolloProvider>
       {renderIdentityModal()}
     </React.Fragment>
   )
