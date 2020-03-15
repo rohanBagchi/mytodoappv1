@@ -41,7 +41,6 @@ export const Init = (identity2) => {
       const credentials = localStorage.getItem('gotrue.user')
       const user = credentials && JSON.parse(credentials);
       const token = user?.token?.access_token;
-      console.log("token", token)
   
       operation.setContext({
         headers: {
