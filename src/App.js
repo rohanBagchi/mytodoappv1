@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { IdentityContextProvider } from 'react-netlify-identity-widget'
 import 'react-netlify-identity-widget/styles.css'
-import Todos from './Todos';
+import Todos from 'domains/Todos';
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import { Layout } from 'antd';
