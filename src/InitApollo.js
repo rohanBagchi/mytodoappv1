@@ -19,7 +19,7 @@ export const Init = (identity2) => {
   
     const hasTokenExpired = new Date() > new Date(tokenExpiresAt);
     
-    if (!hasTokenExpired) {
+    if (hasTokenExpired) {
       return identity
         .getFreshJWT()
         .then(r => {

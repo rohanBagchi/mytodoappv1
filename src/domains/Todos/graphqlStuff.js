@@ -52,6 +52,24 @@ mutation MarkTodoStatus($id: uuid, $complete: Boolean) {
 }
 `;
 
+export const UPDATE_TODO_TITLE = gql`
+mutation MarkTodoStatus($id: uuid, $title: String) {
+  update_todos(where: {id: {_eq: $id}}, _set: {title: $title}) {
+    returning {
+      id
+      title
+      userId
+      content
+      complete
+      user {
+        email
+        name
+      }
+    }
+  }
+}
+`;
+
 export const DELETE_TODO = gql`
 mutation DeleteTodo($id: uuid) {
   delete_todos(where: {id: {_eq: $id}}) {
