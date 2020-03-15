@@ -1,50 +1,18 @@
 import React from 'react'
 import { Query } from "react-apollo";
-import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 import {
-  Typography,
-  Checkbox,
   List,
   Button,
   Input,
   Form,
   Alert
 } from 'antd';
-
-const GET_TODOS = gql`
-query GetTodos {
-  todos {
-    id
-    title
-    userId
-    content
-    complete
-    user {
-      email
-      name
-    }
-  }
-}
-`;
-
-const ADD_TODO = gql`
-mutation insertTodo($title: String, $complete: Boolean) {
-  insert_todos(objects: {title: $title, complete: $complete}) {
-    returning {
-      id
-      title
-      userId
-      content
-      complete
-      user {
-        email
-        name
-      }
-    }
-  }
-}
-`;
+import {
+  GET_TODOS,
+  ADD_TODO
+} from 'domains/Todos/graphqlStuff';
+import Todo from 'domains/Todos/Todo';
 
 export default function Todos() {
   const [addTodo, {
@@ -153,16 +121,3 @@ export default function Todos() {
     </div>
   )
 }
-
-const Todo = ({ title, complete }) => (
-  <List.Item>
-    <Checkbox
-      checked={complete}
-      onChange={e => console.log("Checkbox clicked!", e)}
-    >
-      <Typography.Text>
-        {title}
-      </Typography.Text>
-    </Checkbox>
-  </List.Item>
-);
