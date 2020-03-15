@@ -33,3 +33,21 @@ mutation insertTodo($title: String, $complete: Boolean) {
   }
 }
 `;
+
+export const UPDATE_TODO_STATUS = gql`
+mutation MarkTodoStatus($id: uuid, $complete: Boolean) {
+  update_todos(where: {id: {_eq: $id}}, _set: {complete: $complete}) {
+    returning {
+      id
+      title
+      userId
+      content
+      complete
+      user {
+        email
+        name
+      }
+    }
+  }
+}
+`;

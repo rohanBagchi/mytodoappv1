@@ -110,6 +110,7 @@ export default function Todos() {
               renderItem={({ id, title, complete }) => (
                 <Todo
                   key={id}
+                  id={id}
                   title={title}
                   complete={complete}
                 />
