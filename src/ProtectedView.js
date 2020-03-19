@@ -31,9 +31,6 @@ export default function ProtectedView(props) {
     <IdentityModal
       showDialog={dialog}
       onCloseDialog={() => setDialog(false)}
-      onLogin={(user) => console.log('hello ', user && user.user_metadata)}
-      onSignup={(user) => console.log('welcome ', user && user.user_metadata)}
-      onLogout={() => console.log('bye ', name)}
     />
   );
 
