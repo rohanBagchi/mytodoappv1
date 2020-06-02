@@ -34,7 +34,7 @@ export const Init = (identity2) => {
   }
   
   const client = new ApolloClient({
-    uri: "https://hasura-app-with-netlify.herokuapp.com/v1/graphql",
+    uri: process.env.REACT_APP_GRAPHQL_ENDPOINT_URL,
     fetch: customFetch,
     cache: new InMemoryCache(),
     request: (operation) => {
